@@ -33,4 +33,7 @@ export class ShellComponent implements OnInit {
   public onClickAddButton(): void {
     this.dialogService.isShowCreateOrEditDialog = true
   }
+  public onChangeSelectedTags(e: Event): void {
+    console.log(e)
+  }
 }
