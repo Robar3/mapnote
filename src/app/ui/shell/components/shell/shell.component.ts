@@ -3,6 +3,7 @@ import { FormControl } from "@angular/forms"
 import { LeafletMouseEvent } from "leaflet"
 import { DialogService } from "../../../../dialog.service"
 import { MapService } from "../../../../map.service"
+import { PlaceCardControllerService } from "../../../../place-card-controller.service"
 
 @Component({
   selector: "mn-shell",
@@ -12,15 +13,26 @@ import { MapService } from "../../../../map.service"
 export class ShellComponent implements OnInit {
   public isShowAddButton: boolean = false
   public searchFormControl: FormControl = new FormControl()
+  private addButtonLifeTimerId: number | null = null
 
   constructor(private mapService: MapService,
-              private dialogService: DialogService) {
+              private dialogService: DialogService,
+              public placeCardController: PlaceCardControllerService) {
   }
 
   public ngOnInit(): void {
     this.mapService.isReady.then((map) => {
       map.addEventListener("click", (event: LeafletMouseEvent) => {
         this.isShowAddButton = true
+
+        if (this.addButtonLifeTimerId !== null) {
+          clearTimeout(this.addButtonLifeTimerId)
+        }
+
+        this.addButtonLifeTimerId = setTimeout(() => {
+          this.isShowAddButton = false
+        }, 5000)
+
         this.dialogService.isCurrentEditLatLng = event.latlng
       })
     })
@@ -31,7 +43,13 @@ export class ShellComponent implements OnInit {
   }
 
   public onClickAddButton(): void {
-    this.dialogService.isShowCreateOrEditDialog = true
+    this.dialogService.open()
+    this.isShowAddButton = false
+    clearTimeout(this.addButtonLifeTimerId)
+  }
+
+  public onClosePlaceCard(): void {
+    this.placeCardController.close()
   }
   public onChangeSelectedTags(e: Event): void {
     console.log(e)
