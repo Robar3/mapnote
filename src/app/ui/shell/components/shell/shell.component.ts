@@ -51,4 +51,7 @@ export class ShellComponent implements OnInit {
   public onClosePlaceCard(): void {
     this.placeCardController.close()
   }
+  public onChangeSelectedTags(e: Event): void {
+    console.log(e)
+  }
 }

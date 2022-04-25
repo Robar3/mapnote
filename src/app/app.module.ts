@@ -4,12 +4,14 @@ import { BrowserModule } from "@angular/platform-browser"
 
 import { AppComponent } from "./app.component"
 import { PlaceEditDialogModule } from "./ui/place-edit-dialog/place-edit-dialog.module"
+import { ShellModule } from "./ui/shell/shell.module";
+import { TagFilterComponent } from './ui/shared/components/tag-filter/tag-filter.component'
 import { API_SERVER_PATH } from "./ui/shared/tokens"
-import { ShellModule } from "./ui/shell/shell.module"
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
